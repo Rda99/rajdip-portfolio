@@ -27,14 +27,14 @@ const Globe = () => {
     renderer.setClearColor(0x000000, 0);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Enhanced lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 3); // Increased intensity
+    // Enhanced lighting with warm tones
+    const ambientLight = new THREE.AmbientLight(0xff9933, 3); // Warm orange ambient light
     scene.add(ambientLight);
 
     // Create larger sphere geometry with more segments
     const geometry = new THREE.SphereGeometry(1.2, 48, 48); // Increased size and detail
     const material = new THREE.MeshBasicMaterial({
-      color: 0xa855f7, // Bright purple color
+      color: 0xff6600, // Bright orange color
       wireframe: true,
       wireframeLinewidth: 2,
       opacity: 1, // Full opacity
