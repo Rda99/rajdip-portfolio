@@ -1,0 +1,62 @@
+Rajdip Dutta
+Ó +91-7384604697 — R dutta.rda99@gmail.com — ¯ LinkedIn
+PROFESSIONAL SUMMARY
+Highly skilled Data Analyst/Engineer with 3+ years of experience delivering advanced analytics & engineering
+solutions across Finance, Insurance, E-commerce, Media Entertainment, and Construction sectors.
+Proficient in Power BI, Tableau, SQL, Databricks, and Python, specializing in data engineering, data
+visualization, statistical analysis, and governance across diverse industry domains. Expert in transforming
+complex data into strategic insights for cross-functional teams, with a proven track record of implementing robust
+analytics solutions in multi-dimensional business environments.
+Education
+•
+Heritage Institute of Technology Kolkata, India
+Bachelor of Technology - Computer Science & Engineering; GPA: 7.48 July 2017 - June 2021
+Courses: Operating Systems, Data Structures, Analysis Of Algorithms, Artificial Intelligence, Machine Learning, Networking, Databases
+Skills Summary
+• Languages: Python, R, JavaScript, SQL, Bash
+• BI & Visualization: Power BI (Power Query/DAX/Semantic Models) , Tableau, Looker Studio
+• Data Management: Alteryx, SQL Databases, Snowflake, Dataiku, Databricks, Apache Airflow, Azure, Dbt
+• Big Data Technologies: PySpark, Spark, Azure
+• Statistical Analysis: Regression, Classification, Clustering, Time Series Prediction
+• Compliance: Data compliance, governance, security standards
+• Soft Skills: Leadership, Collaboration, Time Management, Effective Communication
+Experience
+•
+Innovaccer Analytics Pvt Ltd. Noida, India
+Data Analyst/Engineer (Full-time) Nov 2024 - Present
+◦ Led data analytics and engineering projects in the US healthcare industry, utilizing SQL and Alteryx to
+improve data processing efficiency and support decision-making
+◦ Built end-to-end data engineering pipelines using in-house schemas and the Dap tool, enhancing data integration
+for various healthcare clients
+◦ Leveraged advanced SQL, data engineering, Snowflake, and Power BI to streamline data workflows, resulting in a
+25% improvement in reporting efficiency and enhanced insights for stakeholders
+•
+Pricewaterhouse Coopers (PwC) Pvt Ltd. Kolkata, India
+Data Analyst/ Engineer (Full-time) Sept 2021 - Oct 2024
+◦ Conducted customer segmentation analysis for e-commerce clients, leading to a 15% improvement in targeted
+marketing efforts and increased online sales conversion rates
+◦ Developed and maintained interactive Power BI Tableau dashboards, reducing manual workload by 30% and
+improving reporting efficiency by 25%
+◦ Established data quality checks, risk control measures, and governance policies, ensuring 95% accuracy in
+client reporting and maintaining regulatory compliance
+◦ Optimized database performance, improving data storage efficiency and reducing processing time by 20%
+◦ Applied statistical methods and predictive modeling for forecasting, resulting in a 15% increase in accuracy of
+market trend predictions, and supported strategic decisions in e-commerce and financial services
+◦ Implemented large-scale data querying and analysis using SQL and BigQuery-compatible technologies, processing
+over 500GB+ of complex datasets with 99.7% accuracy, reducing query response times by 40% and optimizing
+computational resources
+•
+Technology Risk Partners Kolkata, India
+GRC Consultant (Part-time, Contractual) Apr 2021 - May 2021
+◦ Assisted in the delivery of 5 GRC projects, contributing to strategy development and implementation plans that
+improved client risk visibility by 15%
+◦ Supported sales efforts by preparing materials for 10+ client meetings and demonstrations, helping to secure 2 new
+accounts
+◦ Collaborated on risk management product development, aiding in the creation of 1 new solution and documenting 3
+existing products, resulting in a 10% increase in user adoption rates
+Projects
+• Fraud Detection Model (Python): Developed a machine learning model using Python, scikit-learn and A/B Testing
+to detect fraudulent transactions. The model achieved an accuracy of 92% and demonstrated potential savings
+• Customer Churn Analysis (PySpark): : Conducted customer churn analysis using PySpark on Azure Databricks.
+Identified key factors influencing churn and provided recommendations for customer retention strategies. Utilized
+advanced machine learning techniques to predict churn probability and segment customers
