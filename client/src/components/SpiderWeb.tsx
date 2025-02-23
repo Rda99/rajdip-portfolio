@@ -17,131 +17,122 @@ const SpiderWeb = () => {
 
     resizeCanvas();
 
-    // Create points in a spherical arrangement
-    const createSpherePoints = (count: number, radius: number, centerX: number, centerY: number) => {
+    // Create floating points with 3D movement
+    const createPoints = (count: number) => {
       const points = [];
-      const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
-
       for (let i = 0; i < count; i++) {
-        const y = 1 - (i / (count - 1)) * 2;
-        const radiusAtY = Math.sqrt(1 - y * y);
-
-        const theta = phi * i;
-
-        const x = Math.cos(theta) * radiusAtY;
-        const z = Math.sin(theta) * radiusAtY;
-
         points.push({
-          x3d: x * radius,
-          y3d: y * radius,
-          z3d: z * radius,
-          x: centerX,
-          y: centerY,
-          angle: theta,
-          speed: 0.001 + Math.random() * 0.002,
-          wobble: Math.random() * Math.PI * 2
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          z: Math.random() * 200 - 100,
+          vx: Math.random() * 0.5 - 0.25,
+          vy: Math.random() * 0.5 - 0.25,
+          vz: Math.random() * 0.5 - 0.25,
+          radius: Math.random() * 2 + 1
         });
       }
       return points;
     };
 
-    // Create multiple layers with different radii and more points
-    const points = [
-      ...createSpherePoints(80, 150, canvas.width / 2, canvas.height / 2),
-      ...createSpherePoints(100, 200, canvas.width / 2, canvas.height / 2),
-      ...createSpherePoints(120, 250, canvas.width / 2, canvas.height / 2),
-    ];
+    const points = createPoints(100);
+    let mouseX = 0;
+    let mouseY = 0;
 
-    let rotationX = 0;
-    let rotationY = 0;
-    let time = 0;
-
-    const project3DTo2D = (x: number, y: number, z: number) => {
-      const focalLength = 400;
-      const scale = focalLength / (focalLength + z);
-      return {
-        x: x * scale + canvas.width / 2,
-        y: y * scale + canvas.height / 2,
-        scale: scale
-      };
-    };
-
-    const rotatePoint = (x: number, y: number, z: number) => {
-      const cosY = Math.cos(rotationY);
-      const sinY = Math.sin(rotationY);
-      const tempX = x * cosY - z * sinY;
-      const tempZ = z * cosY + x * sinY;
-
-      const cosX = Math.cos(rotationX);
-      const sinX = Math.sin(rotationX);
-      const tempY = y * cosX - tempZ * sinX;
-      z = tempZ * cosX + y * sinX;
-
-      return { x: tempX, y: tempY, z };
-    };
+    canvas.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // More trail for better visibility
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      time += 0.01;
-      rotationY += 0.001; // Slower rotation for better visibility
-      rotationX = Math.sin(time * 0.2) * 0.3;
-
+      // Update points position with smooth floating motion
       points.forEach(point => {
-        const rotated = rotatePoint(point.x3d, point.y3d, point.z3d);
-        const projected = project3DTo2D(rotated.x, rotated.y, rotated.z);
-        point.x = projected.x;
-        point.y = projected.y;
+        point.x += point.vx;
+        point.y += point.vy;
+        point.z += point.vz;
+
+        // Add mouse interaction
+        const dx = mouseX - point.x;
+        const dy = mouseY - point.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 200) {
+          point.vx += dx * 0.0001;
+          point.vy += dy * 0.0001;
+        }
+
+        // Boundary check with smooth transition
+        if (point.x < 0 || point.x > canvas.width) point.vx *= -1;
+        if (point.y < 0 || point.y > canvas.height) point.vy *= -1;
+        if (point.z < -100 || point.z > 100) point.vz *= -1;
+
+        // Add some randomness to movement
+        point.vx += (Math.random() - 0.5) * 0.01;
+        point.vy += (Math.random() - 0.5) * 0.01;
+        point.vz += (Math.random() - 0.5) * 0.01;
+
+        // Limit velocity
+        const maxSpeed = 2;
+        const speed = Math.sqrt(point.vx * point.vx + point.vy * point.vy + point.vz * point.vz);
+        if (speed > maxSpeed) {
+          point.vx = (point.vx / speed) * maxSpeed;
+          point.vy = (point.vy / speed) * maxSpeed;
+          point.vz = (point.vz / speed) * maxSpeed;
+        }
       });
 
-      // Draw connections with enhanced visibility
+      // Draw connections with enhanced glow effect
       points.forEach((point, i) => {
         points.forEach((otherPoint, j) => {
           if (i < j) {
             const dx = otherPoint.x - point.x;
             const dy = otherPoint.y - point.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            const dz = otherPoint.z - point.z;
+            const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-            if (distance < 150) { // Increased connection distance
-              const opacity = (1 - distance / 150);
+            if (distance < 200) {
+              const opacity = (1 - distance / 200);
+              const zFactor = Math.min(1, Math.max(0.3, (200 + point.z + otherPoint.z) / 400));
 
               // Outer glow
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(0, 255, 255, ${opacity * 0.4})`; // Cyan color for better visibility
-              ctx.lineWidth = 3;
+              ctx.strokeStyle = `rgba(0, 255, 255, ${opacity * 0.3 * zFactor})`;
+              ctx.lineWidth = 4;
               ctx.stroke();
 
-              // Inner line
+              // Inner bright line
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.8})`; // White core for brightness
+              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * zFactor})`;
               ctx.lineWidth = 1;
               ctx.stroke();
             }
           }
         });
 
-        // Enhanced point glow
+        // Draw points with enhanced glow
+        const zFactor = (point.z + 100) / 200;
+
         // Outer glow
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 255, 255, 0.3)';
+        ctx.arc(point.x, point.y, 8 * zFactor, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 255, 255, ${0.2 * zFactor})`;
         ctx.fill();
 
         // Middle glow
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
+        ctx.arc(point.x, point.y, 4 * zFactor, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 255, 255, ${0.4 * zFactor})`;
         ctx.fill();
 
         // Core
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.arc(point.x, point.y, 2 * zFactor, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${0.8 * zFactor})`;
         ctx.fill();
       });
 
