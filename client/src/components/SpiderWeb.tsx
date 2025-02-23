@@ -20,20 +20,18 @@ const SpiderWeb = () => {
     interface Point {
       x: number;
       y: number;
-      z: number;
       vx: number;
       vy: number;
-      vz: number;
+      radius: number;
     }
 
-    // Create points with smoother movement
-    const points: Point[] = Array.from({ length: 100 }, () => ({
+    // Create more points with varied sizes
+    const points: Point[] = Array.from({ length: 150 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      z: Math.random() * 200 - 100,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      vz: (Math.random() - 0.5) * 0.3
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      radius: Math.random() * 2 + 1
     }));
 
     let mouseX = canvas.width / 2;
@@ -45,44 +43,43 @@ const SpiderWeb = () => {
     });
 
     const animate = () => {
-      // Clear canvas with slight trail effect
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+      // Clear canvas with stronger trail effect
+      ctx.fillStyle = 'rgba(10, 10, 20, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Update points
       points.forEach(point => {
-        // Update position
+        // Update position with smoother movement
         point.x += point.vx;
         point.y += point.vy;
-        point.z += point.vz;
 
-        // Mouse interaction
+        // Mouse attraction/repulsion
         const dx = mouseX - point.x;
         const dy = mouseY - point.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 160) {
-          point.vx += dx * 0.00015;
-          point.vy += dy * 0.00015;
+        if (dist < 120) {
+          point.vx -= dx * 0.0002;
+          point.vy -= dy * 0.0002;
         }
 
-        // Boundary checks
+        // Boundary checks with smoother transitions
         if (point.x <= 0 || point.x >= canvas.width) {
-          point.vx *= -1;
+          point.vx *= -0.8;
           point.x = Math.max(0, Math.min(canvas.width, point.x));
         }
         if (point.y <= 0 || point.y >= canvas.height) {
-          point.vy *= -1;
+          point.vy *= -0.8;
           point.y = Math.max(0, Math.min(canvas.height, point.y));
         }
-        if (point.z <= -100 || point.z >= 100) {
-          point.vz *= -1;
-        }
 
-        // Apply friction
+        // Apply friction and randomness
         point.vx *= 0.99;
         point.vy *= 0.99;
-        point.vz *= 0.99;
+
+        // Add slight randomness to movement
+        point.vx += (Math.random() - 0.5) * 0.01;
+        point.vy += (Math.random() - 0.5) * 0.01;
       });
 
       // Draw connections
@@ -91,48 +88,41 @@ const SpiderWeb = () => {
           if (i < j) {
             const dx = otherPoint.x - point.x;
             const dy = otherPoint.y - point.y;
-            const dz = otherPoint.z - point.z;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            // Adjust connection distance based on z-position
-            const maxDistance = 150 * (1 + Math.abs(point.z - otherPoint.z) / 200);
+            const maxDistance = 100;
 
             if (distance < maxDistance) {
               const opacity = Math.pow(1 - distance / maxDistance, 2);
-              const zFactor = Math.min(1, Math.max(0.2, (200 + point.z + otherPoint.z) / 400));
 
-              // Draw glow effect
+              // Draw connection with purple gradient
+              const gradient = ctx.createLinearGradient(
+                point.x, point.y,
+                otherPoint.x, otherPoint.y
+              );
+              gradient.addColorStop(0, `rgba(147, 51, 234, ${opacity * 0.5})`);
+              gradient.addColorStop(1, `rgba(168, 85, 247, ${opacity * 0.5})`);
+
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(0, 255, 255, ${opacity * 0.4 * zFactor})`;
-              ctx.lineWidth = 3;
-              ctx.stroke();
-
-              // Draw core line
-              ctx.beginPath();
-              ctx.moveTo(point.x, point.y);
-              ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.8 * zFactor})`;
+              ctx.strokeStyle = gradient;
               ctx.lineWidth = 1;
               ctx.stroke();
             }
           }
         });
 
-        // Draw point with glow effect
-        const zFactor = (point.z + 100) / 200;
-
-        // Outer glow
+        // Draw point with purple glow
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 255, 255, ${0.3 * zFactor})`;
+        ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(168, 85, 247, 0.8)';
         ctx.fill();
 
-        // Core
+        // Add glow effect
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.9 * zFactor})`;
+        ctx.arc(point.x, point.y, point.radius + 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(147, 51, 234, 0.3)';
         ctx.fill();
       });
 
@@ -149,7 +139,7 @@ const SpiderWeb = () => {
     <canvas
       ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full -z-10"
-      style={{ backgroundColor: '#000000' }}
+      style={{ backgroundColor: '#0a0a14' }}
     />
   );
 };
