@@ -23,15 +23,15 @@ const SpiderWeb = () => {
       radius: number;
     }
 
-    // More points for denser web
-    const points: Point[] = Array.from({ length: 100 }, () => ({
+    // Create more points for denser web
+    const points: Point[] = Array.from({ length: 150 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      radius: Math.random() * 2 + 1
+      radius: Math.random() * 3 + 2 // Larger points for better visibility
     }));
 
     const draw = () => {
-      // Semi-transparent background
+      // Semi-transparent black background
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -43,21 +43,35 @@ const SpiderWeb = () => {
             const dy = otherPoint.y - point.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 150) {
+            if (distance < 180) { // Increased connection distance
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(168, 85, 247, ${1 - distance / 150})`;
-              ctx.lineWidth = 0.5;
+
+              // Create gradient for lines
+              const gradient = ctx.createLinearGradient(
+                point.x, point.y,
+                otherPoint.x, otherPoint.y
+              );
+              gradient.addColorStop(0, `rgba(255, 102, 0, ${1 - distance / 180})`); // Orange
+              gradient.addColorStop(1, `rgba(255, 140, 0, ${1 - distance / 180})`); // Darker orange
+
+              ctx.strokeStyle = gradient;
+              ctx.lineWidth = 0.8; // Slightly thicker lines
               ctx.stroke();
             }
           }
         });
 
-        // Draw point
+        // Draw points with glow effect
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, point.radius + 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 102, 0, 0.2)'; // Orange glow
+        ctx.fill();
+
         ctx.beginPath();
         ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(168, 85, 247, 0.8)';
+        ctx.fillStyle = 'rgba(255, 102, 0, 0.8)'; // Solid orange center
         ctx.fill();
 
         // Move points
