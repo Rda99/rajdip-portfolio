@@ -89,14 +89,13 @@ const Navigation = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-center h-16"> {/* Changed justify-between to justify-center */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center space-x-2"
+            className="flex items-center"
           >
             <LogoIcon />
-            <span className="text-orange-500 font-bold text-xl">Rajdip Dutta</span>
           </motion.div>
           <div className="hidden md:flex space-x-8">
             {navItems.map((item) => (
