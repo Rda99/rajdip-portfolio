@@ -21,8 +21,9 @@ const Navigation = () => {
     }
   };
 
-  const handleEmailClick = () => {
-    window.location.href = "mailto:dutta.rda99@gmail.com";
+  // Updated to open resume in new tab
+  const handleResumeClick = () => {
+    window.open("https://drive.google.com/file/d/10u4_k9Y3nrZkSdudyZnVy-w6uvpxL7KA/view?usp=sharing", "_blank");
   };
 
   const LogoIcon = () => (
@@ -140,7 +141,7 @@ const Navigation = () => {
             </div>
             <div className="flex items-center space-x-4">
               <a
-                href="https://www.linkedin.com/in/ritesh-dutta-70671a22a"
+                href="https://www.linkedin.com/in/rajdip-dutta-data-analyst/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-orange-500 transition-colors"
@@ -148,7 +149,7 @@ const Navigation = () => {
                 <SiLinkedin size={20} />
               </a>
               <a
-                href="https://github.com/riteshdutta99"
+                href="https://github.com/Rda99"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-orange-500 transition-colors"
@@ -156,7 +157,7 @@ const Navigation = () => {
                 <SiGithub size={20} />
               </a>
               <button
-                onClick={handleEmailClick}
+                onClick={handleResumeClick}
                 className="text-white hover:text-orange-500 transition-colors"
               >
                 <FaFileAlt size={20} />
