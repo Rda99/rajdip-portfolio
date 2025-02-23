@@ -1,5 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
+import { SiLinkedin, SiGithub } from "react-icons/si";
+import { FaFileAlt, FaCoffee, FaLaptopCode } from "react-icons/fa";
 
 const Navigation = () => {
   const [location] = useLocation();
@@ -11,6 +13,17 @@ const Navigation = () => {
     { href: "#projects", label: "Projects" },
     { href: "#contact", label: "Contact" },
   ];
+
+  const handleNavClick = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleEmailClick = () => {
+    window.location.href = "mailto:dutta.rda99@gmail.com";
+  };
 
   const LogoIcon = () => (
     <motion.svg
@@ -87,30 +100,72 @@ const Navigation = () => {
   );
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center"
-          >
-            <LogoIcon />
-          </motion.div>
-          <div className="hidden md:flex space-x-8 ml-auto">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <a className={`text-white hover:text-orange-500 transition-colors ${
-                  location === item.href ? "text-orange-500" : ""
-                }`}>
+    <>
+      <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center"
+            >
+              <LogoIcon />
+            </motion.div>
+            <div className="hidden md:flex space-x-8 ml-auto">
+              {navItems.map((item) => (
+                <button
+                  key={item.href}
+                  onClick={() => handleNavClick(item.href)}
+                  className={`text-white hover:text-orange-500 transition-colors ${
+                    location === item.href ? "text-orange-500" : ""
+                  }`}
+                >
                   {item.label}
-                </a>
-              </Link>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Footer */}
+      <footer className="fixed bottom-0 left-0 w-full bg-black/80 backdrop-blur-sm py-2">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 text-white">
+              <span>Made with</span>
+              <FaLaptopCode className="text-orange-500" />
+              <span>&</span>
+              <FaCoffee className="text-orange-500" />
+            </div>
+            <div className="flex items-center space-x-4">
+              <a
+                href="https://www.linkedin.com/in/ritesh-dutta-70671a22a"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-orange-500 transition-colors"
+              >
+                <SiLinkedin size={20} />
+              </a>
+              <a
+                href="https://github.com/riteshdutta99"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-orange-500 transition-colors"
+              >
+                <SiGithub size={20} />
+              </a>
+              <button
+                onClick={handleEmailClick}
+                className="text-white hover:text-orange-500 transition-colors"
+              >
+                <FaFileAlt size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </>
   );
 };
 
