@@ -156,6 +156,14 @@ const Navigation = () => {
               >
                 <SiGithub size={20} />
               </a>
+              <a
+                href="https://github.com/Rda99/E-Commerce-Churn-Prediction"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-orange-500 transition-colors"
+              >
+                <FaLaptopCode size={20} />
+              </a>
               <button
                 onClick={handleResumeClick}
                 className="text-white hover:text-orange-500 transition-colors"
