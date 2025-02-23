@@ -151,12 +151,12 @@ const Navigation = () => {
                 <SiLinkedin size={20} />
               </motion.a>
               <motion.a
-                href="https://github.com/Rda99/E-Commerce-Churn-Prediction"
+                href="https://github.com/Rda99"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-orange-500 transition-colors"
                 whileHover={{ scale: 1.1 }}
-                aria-label="Visit E-Commerce Churn Prediction Project on GitHub"
+                aria-label="Visit GitHub Profile"
               >
                 <SiGithub size={20} />
               </motion.a>
