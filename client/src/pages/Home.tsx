@@ -6,11 +6,18 @@ import Skills from "@/components/sections/Skills";
 import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import Contact from "@/components/sections/Contact";
+import Globe from "@/components/Globe";
 
 const Home = () => {
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
-      <SpiderWeb />
+    <div className="relative min-h-screen bg-black text-white">
+      {/* Background elements */}
+      <div className="fixed inset-0 overflow-hidden">
+        <Globe />
+        <SpiderWeb />
+      </div>
+
+      {/* Content */}
       <div className="relative z-10">
         <Navigation />
         <motion.div

@@ -16,7 +16,6 @@ const Globe = () => {
       0.1,
       1000
     );
-    // Move camera closer to make globe bigger
     camera.position.z = 2;
 
     // Renderer setup
@@ -83,7 +82,7 @@ const Globe = () => {
   return (
     <div 
       ref={containerRef} 
-      className="fixed top-0 left-0 w-full h-full -z-20"
+      className="fixed inset-0 w-full h-full"
       style={{ background: 'transparent' }}
     />
   );
