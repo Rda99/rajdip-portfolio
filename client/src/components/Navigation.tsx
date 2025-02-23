@@ -22,39 +22,67 @@ const Navigation = () => {
       whileHover="hover"
       className="text-orange-500"
     >
-      {/* Circle representing 'O' */}
-      <motion.circle
-        cx="20"
-        cy="20"
-        r="16"
-        stroke="currentColor"
-        strokeWidth="2"
-        fill="none"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 2, repeat: Infinity }}
-      />
-
-      {/* Data points representing 'D' */}
+      {/* Outer hexagon shape */}
       <motion.path
-        d="M12 20 L28 20 M20 12 L20 28"
+        d="M20 4 L32 10 L32 30 L20 36 L8 30 L8 10 Z"
+        fill="none"
         stroke="currentColor"
         strokeWidth="2"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 2, delay: 0.5, repeat: Infinity }}
-      />
-
-      {/* Pulsing center point */}
-      <motion.circle
-        cx="20"
-        cy="20"
-        r="4"
-        fill="currentColor"
-        initial={{ scale: 0 }}
-        animate={{ scale: [1, 1.2, 1] }}
         transition={{ duration: 2, repeat: Infinity }}
       />
+
+      {/* Inner data points and connections */}
+      <motion.g
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.5, duration: 1 }}
+      >
+        {/* Data points */}
+        <motion.circle cx="20" cy="12" r="2" fill="currentColor" />
+        <motion.circle cx="28" cy="16" r="2" fill="currentColor" />
+        <motion.circle cx="28" cy="24" r="2" fill="currentColor" />
+        <motion.circle cx="20" cy="28" r="2" fill="currentColor" />
+        <motion.circle cx="12" cy="24" r="2" fill="currentColor" />
+        <motion.circle cx="12" cy="16" r="2" fill="currentColor" />
+
+        {/* Central node with pulse animation */}
+        <motion.circle
+          cx="20"
+          cy="20"
+          r="3"
+          fill="currentColor"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.7, 1, 0.7]
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+
+        {/* Connecting lines with animation */}
+        <motion.path
+          d="M20 12 L28 16 L28 24 L20 28 L12 24 L12 16 Z"
+          stroke="currentColor"
+          strokeWidth="1"
+          fill="none"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, delay: 1, repeat: Infinity }}
+        />
+
+        {/* Radiating lines */}
+        <motion.g
+          animate={{ 
+            rotate: 360,
+            opacity: [0.3, 0.7, 0.3]
+          }}
+          transition={{ duration: 8, repeat: Infinity }}
+        >
+          <line x1="20" y1="15" x2="20" y2="25" stroke="currentColor" strokeWidth="1" />
+          <line x1="15" y1="20" x2="25" y2="20" stroke="currentColor" strokeWidth="1" />
+        </motion.g>
+      </motion.g>
     </motion.svg>
   );
 
