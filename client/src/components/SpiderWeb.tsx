@@ -17,26 +17,27 @@ const SpiderWeb = () => {
 
     resizeCanvas();
 
-    // Create floating points with 3D movement
-    const createPoints = (count: number) => {
-      const points = [];
-      for (let i = 0; i < count; i++) {
-        points.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          z: Math.random() * 200 - 100,
-          vx: Math.random() * 0.5 - 0.25,
-          vy: Math.random() * 0.5 - 0.25,
-          vz: Math.random() * 0.5 - 0.25,
-          radius: Math.random() * 2 + 1
-        });
-      }
-      return points;
-    };
+    interface Point {
+      x: number;
+      y: number;
+      z: number;
+      vx: number;
+      vy: number;
+      vz: number;
+    }
 
-    const points = createPoints(100);
-    let mouseX = 0;
-    let mouseY = 0;
+    // Create points with smoother movement
+    const points: Point[] = Array.from({ length: 100 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      z: Math.random() * 200 - 100,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      vz: (Math.random() - 0.5) * 0.3
+    }));
+
+    let mouseX = canvas.width / 2;
+    let mouseY = canvas.height / 2;
 
     canvas.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
@@ -44,95 +45,94 @@ const SpiderWeb = () => {
     });
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      // Clear canvas with slight trail effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Update points position with smooth floating motion
+      // Update points
       points.forEach(point => {
+        // Update position
         point.x += point.vx;
         point.y += point.vy;
         point.z += point.vz;
 
-        // Add mouse interaction
+        // Mouse interaction
         const dx = mouseX - point.x;
         const dy = mouseY - point.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 200) {
-          point.vx += dx * 0.0001;
-          point.vy += dy * 0.0001;
+
+        if (dist < 160) {
+          point.vx += dx * 0.00015;
+          point.vy += dy * 0.00015;
         }
 
-        // Boundary check with smooth transition
-        if (point.x < 0 || point.x > canvas.width) point.vx *= -1;
-        if (point.y < 0 || point.y > canvas.height) point.vy *= -1;
-        if (point.z < -100 || point.z > 100) point.vz *= -1;
-
-        // Add some randomness to movement
-        point.vx += (Math.random() - 0.5) * 0.01;
-        point.vy += (Math.random() - 0.5) * 0.01;
-        point.vz += (Math.random() - 0.5) * 0.01;
-
-        // Limit velocity
-        const maxSpeed = 2;
-        const speed = Math.sqrt(point.vx * point.vx + point.vy * point.vy + point.vz * point.vz);
-        if (speed > maxSpeed) {
-          point.vx = (point.vx / speed) * maxSpeed;
-          point.vy = (point.vy / speed) * maxSpeed;
-          point.vz = (point.vz / speed) * maxSpeed;
+        // Boundary checks
+        if (point.x <= 0 || point.x >= canvas.width) {
+          point.vx *= -1;
+          point.x = Math.max(0, Math.min(canvas.width, point.x));
         }
+        if (point.y <= 0 || point.y >= canvas.height) {
+          point.vy *= -1;
+          point.y = Math.max(0, Math.min(canvas.height, point.y));
+        }
+        if (point.z <= -100 || point.z >= 100) {
+          point.vz *= -1;
+        }
+
+        // Apply friction
+        point.vx *= 0.99;
+        point.vy *= 0.99;
+        point.vz *= 0.99;
       });
 
-      // Draw connections with enhanced glow effect
+      // Draw connections
       points.forEach((point, i) => {
         points.forEach((otherPoint, j) => {
           if (i < j) {
             const dx = otherPoint.x - point.x;
             const dy = otherPoint.y - point.y;
             const dz = otherPoint.z - point.z;
-            const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 200) {
-              const opacity = (1 - distance / 200);
-              const zFactor = Math.min(1, Math.max(0.3, (200 + point.z + otherPoint.z) / 400));
+            // Adjust connection distance based on z-position
+            const maxDistance = 150 * (1 + Math.abs(point.z - otherPoint.z) / 200);
 
-              // Outer glow
+            if (distance < maxDistance) {
+              const opacity = Math.pow(1 - distance / maxDistance, 2);
+              const zFactor = Math.min(1, Math.max(0.2, (200 + point.z + otherPoint.z) / 400));
+
+              // Draw glow effect
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(0, 255, 255, ${opacity * 0.3 * zFactor})`;
-              ctx.lineWidth = 4;
+              ctx.strokeStyle = `rgba(0, 255, 255, ${opacity * 0.4 * zFactor})`;
+              ctx.lineWidth = 3;
               ctx.stroke();
 
-              // Inner bright line
+              // Draw core line
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * zFactor})`;
+              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.8 * zFactor})`;
               ctx.lineWidth = 1;
               ctx.stroke();
             }
           }
         });
 
-        // Draw points with enhanced glow
+        // Draw point with glow effect
         const zFactor = (point.z + 100) / 200;
 
         // Outer glow
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 8 * zFactor, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 255, 255, ${0.2 * zFactor})`;
-        ctx.fill();
-
-        // Middle glow
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, 4 * zFactor, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 255, 255, ${0.4 * zFactor})`;
+        ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 255, 255, ${0.3 * zFactor})`;
         ctx.fill();
 
         // Core
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 2 * zFactor, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.8 * zFactor})`;
+        ctx.arc(point.x, point.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${0.9 * zFactor})`;
         ctx.fill();
       });
 
