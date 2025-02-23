@@ -20,121 +20,104 @@ const SpiderWeb = () => {
     interface Point {
       x: number;
       y: number;
-      vx: number;
-      vy: number;
       radius: number;
     }
 
-    // Increase number of points for better visibility
-    const points: Point[] = Array.from({ length: 200 }, () => ({
+    // Static points with larger radius
+    const points: Point[] = Array.from({ length: 150 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      radius: Math.random() * 2.5 + 1.5 // Slightly larger particles
+      radius: Math.random() * 3 + 2 // Larger radius for better visibility
     }));
 
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
 
-    canvas.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    const animate = () => {
-      // Less transparent trail effect
-      ctx.fillStyle = 'rgba(10, 10, 20, 0.3)'; // Increased opacity
+    const draw = () => {
+      // Clear canvas completely for crisp rendering
+      ctx.fillStyle = '#0a0a14';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Update points
-      points.forEach(point => {
-        point.x += point.vx;
-        point.y += point.vy;
-
-        const dx = mouseX - point.x;
-        const dy = mouseY - point.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 120) {
-          point.vx -= dx * 0.0002;
-          point.vy -= dy * 0.0002;
-        }
-
-        if (point.x <= 0 || point.x >= canvas.width) {
-          point.vx *= -0.8;
-          point.x = Math.max(0, Math.min(canvas.width, point.x));
-        }
-        if (point.y <= 0 || point.y >= canvas.height) {
-          point.vy *= -0.8;
-          point.y = Math.max(0, Math.min(canvas.height, point.y));
-        }
-
-        point.vx *= 0.99;
-        point.vy *= 0.99;
-
-        point.vx += (Math.random() - 0.5) * 0.01;
-        point.vy += (Math.random() - 0.5) * 0.01;
-      });
-
-      // Draw connections with higher opacity
+      // Draw connections only near mouse
       points.forEach((point, i) => {
-        points.forEach((otherPoint, j) => {
-          if (i < j) {
-            const dx = otherPoint.x - point.x;
-            const dy = otherPoint.y - point.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+        // Calculate distance to mouse
+        const dxMouse = mouseX - point.x;
+        const dyMouse = mouseY - point.y;
+        const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
 
-            const maxDistance = 100;
+        // Only process points within mouse influence
+        if (distMouse < 200) {
+          points.forEach((otherPoint, j) => {
+            if (i < j) {
+              const dx = otherPoint.x - point.x;
+              const dy = otherPoint.y - point.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < maxDistance) {
-              const opacity = Math.pow(1 - distance / maxDistance, 2);
+              if (distance < 150) {
+                const opacity = Math.pow(1 - distance / 150, 2) * 
+                              Math.pow(1 - distMouse / 200, 2);
 
-              // More visible connections
-              const gradient = ctx.createLinearGradient(
-                point.x, point.y,
-                otherPoint.x, otherPoint.y
-              );
-              gradient.addColorStop(0, `rgba(147, 51, 234, ${opacity * 0.8})`); // Increased opacity
-              gradient.addColorStop(1, `rgba(168, 85, 247, ${opacity * 0.8})`); // Increased opacity
+                // Enhanced connections
+                const gradient = ctx.createLinearGradient(
+                  point.x, point.y,
+                  otherPoint.x, otherPoint.y
+                );
+                gradient.addColorStop(0, `rgba(147, 51, 234, ${opacity})`);
+                gradient.addColorStop(1, `rgba(168, 85, 247, ${opacity})`);
 
-              ctx.beginPath();
-              ctx.moveTo(point.x, point.y);
-              ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = gradient;
-              ctx.lineWidth = 1.5; // Slightly thicker lines
-              ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(point.x, point.y);
+                ctx.lineTo(otherPoint.x, otherPoint.y);
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+              }
             }
-          }
-        });
+          });
+        }
 
-        // More visible points
+        // Draw points with enhanced visibility
         ctx.beginPath();
         ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(168, 85, 247, 0.9)'; // Increased opacity
+        ctx.fillStyle = 'rgba(168, 85, 247, 0.9)';
         ctx.fill();
 
-        // Enhanced glow effect
+        // Add glow effect
         ctx.beginPath();
         ctx.arc(point.x, point.y, point.radius + 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(147, 51, 234, 0.5)'; // Increased opacity
+        ctx.fillStyle = 'rgba(147, 51, 234, 0.6)';
         ctx.fill();
       });
-
-      requestAnimationFrame(animate);
     };
 
-    animate();
+    // Handle mouse movement
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      draw(); // Redraw only on mouse movement
+    };
 
-    window.addEventListener('resize', resizeCanvas);
-    return () => window.removeEventListener('resize', resizeCanvas);
+    // Initial draw
+    draw();
+
+    // Event listeners
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      draw();
+    });
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', resizeCanvas);
+    };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full -z-10"
-      style={{ backgroundColor: '#0a0a14' }} // Darker background
+      style={{ backgroundColor: '#0a0a14' }}
     />
   );
 };
