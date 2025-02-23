@@ -140,28 +140,34 @@ const Navigation = () => {
               <FaCoffee className="text-orange-500" />
             </div>
             <div className="flex items-center space-x-4">
-              <a
+              <motion.a
                 href="https://www.linkedin.com/in/rajdip-dutta-data-analyst/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-orange-500 transition-colors"
+                whileHover={{ scale: 1.1 }}
+                aria-label="Visit LinkedIn Profile"
               >
                 <SiLinkedin size={20} />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="https://github.com/Rda99/E-Commerce-Churn-Prediction"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-orange-500 transition-colors"
+                whileHover={{ scale: 1.1 }}
+                aria-label="Visit E-Commerce Churn Prediction Project on GitHub"
               >
                 <SiGithub size={20} />
-              </a>
-              <button
+              </motion.a>
+              <motion.button
                 onClick={handleResumeClick}
                 className="text-white hover:text-orange-500 transition-colors"
+                whileHover={{ scale: 1.1 }}
+                aria-label="Download Resume"
               >
                 <FaFileAlt size={20} />
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
