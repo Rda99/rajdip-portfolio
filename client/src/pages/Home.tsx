@@ -9,21 +9,22 @@ import Contact from "@/components/sections/Contact";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="relative min-h-screen bg-black text-white overflow-hidden">
       <SpiderWeb />
-      <Navigation />
-      
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Hero />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Contact />
-      </motion.div>
+      <div className="relative z-10">
+        <Navigation />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Hero />
+          <Skills />
+          <Experience />
+          <Projects />
+          <Contact />
+        </motion.div>
+      </div>
     </div>
   );
 };
