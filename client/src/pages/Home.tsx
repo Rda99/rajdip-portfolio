@@ -11,8 +11,8 @@ import Globe from "@/components/Globe";
 const Home = () => {
   return (
     <div className="relative min-h-screen bg-black text-white">
-      {/* Background elements */}
-      <div className="fixed inset-0 overflow-hidden">
+      {/* Background elements with explicit z-index */}
+      <div className="fixed inset-0 overflow-hidden z-0">
         <Globe />
         <SpiderWeb />
       </div>

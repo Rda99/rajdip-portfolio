@@ -16,9 +16,9 @@ const Globe = () => {
       0.1,
       1000
     );
-    camera.position.z = 2;
+    camera.position.z = 1.8; // Bring camera closer for better visibility
 
-    // Renderer setup
+    // Renderer setup with better antialias
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       alpha: true,
@@ -27,32 +27,32 @@ const Globe = () => {
     renderer.setClearColor(0x000000, 0);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Enhanced lighting with warm tones
-    const ambientLight = new THREE.AmbientLight(0xff9933, 3); // Warm orange ambient light
+    // Brighter ambient light
+    const ambientLight = new THREE.AmbientLight(0xff9933, 5); // Increased intensity
     scene.add(ambientLight);
 
-    // Create larger sphere geometry with more segments
-    const geometry = new THREE.SphereGeometry(1.2, 48, 48); // Increased size and detail
+    // Create sphere with orange wireframe
+    const geometry = new THREE.SphereGeometry(1.1, 64, 64); // More segments for smoother appearance
     const material = new THREE.MeshBasicMaterial({
-      color: 0xff6600, // Bright orange color
+      color: 0xff6600, // Bright orange
       wireframe: true,
-      wireframeLinewidth: 2,
-      opacity: 1, // Full opacity
+      wireframeLinewidth: 3, // Thicker lines
       transparent: true,
+      opacity: 0.8, // Slight transparency for depth
     });
 
-    // Create globe
+    // Create and add globe to scene
     globe.current = new THREE.Mesh(geometry, material);
     scene.add(globe.current);
 
-    // Animation
+    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
 
       if (globe.current) {
-        // Faster rotation for more visible movement
-        globe.current.rotation.y += 0.008;
-        globe.current.rotation.x += 0.004;
+        // Slower rotation for better visibility
+        globe.current.rotation.y += 0.005;
+        globe.current.rotation.x += 0.002;
       }
 
       renderer.render(scene, camera);
@@ -83,7 +83,7 @@ const Globe = () => {
     <div 
       ref={containerRef} 
       className="fixed inset-0 w-full h-full"
-      style={{ background: 'transparent' }}
+      style={{ background: 'transparent', zIndex: 0 }}
     />
   );
 };
