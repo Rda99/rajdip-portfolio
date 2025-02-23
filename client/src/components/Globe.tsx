@@ -16,7 +16,8 @@ const Globe = () => {
       0.1,
       1000
     );
-    camera.position.z = 2.5;
+    // Move camera closer to make globe bigger
+    camera.position.z = 2;
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ 
@@ -27,17 +28,17 @@ const Globe = () => {
     renderer.setClearColor(0x000000, 0);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Basic lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+    // Enhanced lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 3); // Increased intensity
     scene.add(ambientLight);
 
-    // Create sphere geometry
-    const geometry = new THREE.SphereGeometry(1, 32, 32);
+    // Create larger sphere geometry with more segments
+    const geometry = new THREE.SphereGeometry(1.2, 48, 48); // Increased size and detail
     const material = new THREE.MeshBasicMaterial({
-      color: 0xa855f7,
+      color: 0xa855f7, // Bright purple color
       wireframe: true,
       wireframeLinewidth: 2,
-      opacity: 0.8,
+      opacity: 1, // Full opacity
       transparent: true,
     });
 
@@ -45,14 +46,14 @@ const Globe = () => {
     globe.current = new THREE.Mesh(geometry, material);
     scene.add(globe.current);
 
-    // Simple animation
+    // Animation
     const animate = () => {
       requestAnimationFrame(animate);
 
       if (globe.current) {
-        // Simple constant rotation
-        globe.current.rotation.y += 0.005;
-        globe.current.rotation.x += 0.002;
+        // Faster rotation for more visible movement
+        globe.current.rotation.y += 0.008;
+        globe.current.rotation.x += 0.004;
       }
 
       renderer.render(scene, camera);

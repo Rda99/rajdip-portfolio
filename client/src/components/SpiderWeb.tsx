@@ -23,84 +23,81 @@ const SpiderWeb = () => {
       radius: number;
     }
 
-    // Static points with larger radius
-    const points: Point[] = Array.from({ length: 150 }, () => ({
+    // More points for denser web
+    const points: Point[] = Array.from({ length: 200 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      radius: Math.random() * 3 + 2 // Larger radius for better visibility
+      radius: Math.random() * 4 + 3 // Larger points
     }));
 
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
 
     const draw = () => {
-      // Clear canvas completely for crisp rendering
+      // Clear canvas with dark background
       ctx.fillStyle = '#0a0a14';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw connections only near mouse
+      // Draw connections with increased range
       points.forEach((point, i) => {
-        // Calculate distance to mouse
         const dxMouse = mouseX - point.x;
         const dyMouse = mouseY - point.y;
         const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
 
-        // Only process points within mouse influence
-        if (distMouse < 200) {
+        // Increased influence range
+        if (distMouse < 300) {
           points.forEach((otherPoint, j) => {
             if (i < j) {
               const dx = otherPoint.x - point.x;
               const dy = otherPoint.y - point.y;
               const distance = Math.sqrt(dx * dx + dy * dy);
 
-              if (distance < 150) {
-                const opacity = Math.pow(1 - distance / 150, 2) * 
-                              Math.pow(1 - distMouse / 200, 2);
+              // Increased connection range
+              if (distance < 200) {
+                const opacity = Math.pow(1 - distance / 200, 2) * 
+                             Math.pow(1 - distMouse / 300, 2);
 
-                // Enhanced connections
+                // Brighter gradient
                 const gradient = ctx.createLinearGradient(
                   point.x, point.y,
                   otherPoint.x, otherPoint.y
                 );
-                gradient.addColorStop(0, `rgba(147, 51, 234, ${opacity})`);
-                gradient.addColorStop(1, `rgba(168, 85, 247, ${opacity})`);
+                gradient.addColorStop(0, `rgba(168, 85, 247, ${opacity * 0.8})`); // More visible
+                gradient.addColorStop(1, `rgba(147, 51, 234, ${opacity * 0.8})`);
 
                 ctx.beginPath();
                 ctx.moveTo(point.x, point.y);
                 ctx.lineTo(otherPoint.x, otherPoint.y);
                 ctx.strokeStyle = gradient;
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 2.5; // Thicker lines
                 ctx.stroke();
               }
             }
           });
         }
 
-        // Draw points with enhanced visibility
+        // Draw larger points with enhanced glow
         ctx.beginPath();
         ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(168, 85, 247, 0.9)';
+        ctx.fillStyle = 'rgba(168, 85, 247, 0.9)'; // More opaque
         ctx.fill();
 
-        // Add glow effect
+        // Enhanced glow effect
         ctx.beginPath();
-        ctx.arc(point.x, point.y, point.radius + 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(147, 51, 234, 0.6)';
+        ctx.arc(point.x, point.y, point.radius + 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(147, 51, 234, 0.7)';
         ctx.fill();
       });
     };
 
-    // Handle mouse movement
     const handleMouseMove = (event: MouseEvent) => {
       mouseX = event.clientX;
       mouseY = event.clientY;
-      draw(); // Redraw only on mouse movement
+      draw();
     };
 
-    // Initial draw
     draw();
 
-    // Event listeners
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('resize', () => {
       resizeCanvas();
