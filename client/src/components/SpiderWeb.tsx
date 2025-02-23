@@ -21,22 +21,22 @@ const SpiderWeb = () => {
       x: number;
       y: number;
       radius: number;
-      vx: number; // velocity x
-      vy: number; // velocity y
+      vx: number;
+      vy: number;
     }
 
-    // Create more points for denser web
-    const points: Point[] = Array.from({ length: 200 }, () => ({
+    // Reduced number of points for less concentration
+    const points: Point[] = Array.from({ length: 100 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      radius: Math.random() * 2 + 1.5, // Slightly smaller points
-      vx: (Math.random() * 0.4 - 0.2), // Slower movement
-      vy: (Math.random() * 0.4 - 0.2)  // Slower movement
+      radius: Math.random() * 2 + 2, // Slightly larger points
+      vx: (Math.random() * 0.3 - 0.15), // Slower movement
+      vy: (Math.random() * 0.3 - 0.15)  // Slower movement
     }));
 
     const draw = () => {
-      // Semi-transparent black background
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      // Clear background with more opacity
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw connections
@@ -47,7 +47,7 @@ const SpiderWeb = () => {
             const dy = otherPoint.y - point.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 120) { // Reduced connection distance
+            if (distance < 100) { // Further reduced connection distance
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
@@ -57,26 +57,25 @@ const SpiderWeb = () => {
                 point.x, point.y,
                 otherPoint.x, otherPoint.y
               );
-              gradient.addColorStop(0, `rgba(255, 102, 0, ${1 - distance / 120})`); // Orange
-              gradient.addColorStop(1, `rgba(255, 140, 0, ${1 - distance / 120})`); // Darker orange
+              gradient.addColorStop(0, `rgba(255, 102, 0, ${1 - distance / 100})`);
+              gradient.addColorStop(1, `rgba(255, 140, 0, ${1 - distance / 100})`);
 
               ctx.strokeStyle = gradient;
-              ctx.lineWidth = 0.5; // Thinner lines for less visual noise
+              ctx.lineWidth = 0.8; // Slightly thicker lines for better visibility
               ctx.stroke();
             }
           }
         });
 
-        // Draw points with subtle glow effect
+        // Draw points with subtle glow
         ctx.beginPath();
         ctx.arc(point.x, point.y, point.radius + 1, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 102, 0, 0.15)'; // Subtle orange glow
+        ctx.fillStyle = 'rgba(255, 102, 0, 0.2)';
         ctx.fill();
 
         ctx.beginPath();
         ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 102, 0, 0.6)'; // Solid orange center
-
+        ctx.fillStyle = 'rgba(255, 102, 0, 0.7)';
         ctx.fill();
 
         // Move points with velocity
