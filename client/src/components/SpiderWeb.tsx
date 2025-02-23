@@ -18,21 +18,22 @@ const SpiderWeb = () => {
     resizeCanvas();
 
     let nodes: { x: number; y: number; vx: number; vy: number }[] = [];
-    const nodeCount = 100; // Increased from 50 to 100
-    const maxDistance = 200; // Increased from 150 to 200
+    const nodeCount = 150; // Increased node count for denser web
+    const maxDistance = 150; // Adjusted for better connection density
 
     // Initialize nodes
     for (let i = 0; i < nodeCount; i++) {
       nodes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 1, // Increased speed
-        vy: (Math.random() - 0.5) * 1  // Increased speed
+        vx: (Math.random() - 0.5) * 0.8, // Adjusted speed
+        vy: (Math.random() - 0.5) * 0.8  // Adjusted speed
       });
     }
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Increased opacity for better trail effect
+      // Clear with higher opacity for more prominent trails
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Update and draw nodes
@@ -40,9 +41,15 @@ const SpiderWeb = () => {
         node.x += node.vx;
         node.y += node.vy;
 
-        // Bounce off edges
-        if (node.x <= 0 || node.x >= canvas.width) node.vx *= -1;
-        if (node.y <= 0 || node.y >= canvas.height) node.vy *= -1;
+        // Bounce off edges with slight randomization
+        if (node.x <= 0 || node.x >= canvas.width) {
+          node.vx *= -1;
+          node.vx += (Math.random() - 0.5) * 0.1; // Add slight randomness
+        }
+        if (node.y <= 0 || node.y >= canvas.height) {
+          node.vy *= -1;
+          node.vy += (Math.random() - 0.5) * 0.1; // Add slight randomness
+        }
 
         // Draw connections
         nodes.forEach(otherNode => {
@@ -51,14 +58,21 @@ const SpiderWeb = () => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < maxDistance) {
+            const opacity = (1 - distance / maxDistance) * 0.8; // Increased base opacity
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(otherNode.x, otherNode.y);
-            ctx.strokeStyle = `rgba(255, 165, 0, ${0.5 - distance / maxDistance})`; // Increased base opacity
-            ctx.lineWidth = 1 - distance / maxDistance; // Added line width variation
+            ctx.strokeStyle = `rgba(255, 165, 0, ${opacity})`;
+            ctx.lineWidth = (1 - distance / maxDistance) * 2; // Increased line width
             ctx.stroke();
           }
         });
+
+        // Draw nodes (small points)
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 1, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 165, 0, 0.5)';
+        ctx.fill();
       });
 
       requestAnimationFrame(animate);
