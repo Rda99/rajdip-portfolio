@@ -29,7 +29,7 @@ const SpiderWeb = () => {
     const points: Point[] = Array.from({ length: 100 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      radius: Math.random() * 2 + 2, // Slightly larger points
+      radius: Math.random() * 1.5 + 1, // Smaller points
       vx: (Math.random() * 0.3 - 0.15), // Slower movement
       vy: (Math.random() * 0.3 - 0.15)  // Slower movement
     }));
@@ -61,7 +61,7 @@ const SpiderWeb = () => {
               gradient.addColorStop(1, `rgba(255, 140, 0, ${1 - distance / 100})`);
 
               ctx.strokeStyle = gradient;
-              ctx.lineWidth = 0.8; // Slightly thicker lines for better visibility
+              ctx.lineWidth = 0.3; // Thinner lines
               ctx.stroke();
             }
           }
@@ -69,7 +69,7 @@ const SpiderWeb = () => {
 
         // Draw points with subtle glow
         ctx.beginPath();
-        ctx.arc(point.x, point.y, point.radius + 1, 0, Math.PI * 2);
+        ctx.arc(point.x, point.y, point.radius + 0.5, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255, 102, 0, 0.2)';
         ctx.fill();
 
