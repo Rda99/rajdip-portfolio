@@ -21,13 +21,17 @@ const SpiderWeb = () => {
       x: number;
       y: number;
       radius: number;
+      vx: number; // velocity x
+      vy: number; // velocity y
     }
 
     // Create more points for denser web
-    const points: Point[] = Array.from({ length: 150 }, () => ({
+    const points: Point[] = Array.from({ length: 200 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      radius: Math.random() * 3 + 2 // Larger points for better visibility
+      radius: Math.random() * 2 + 1.5, // Slightly smaller points
+      vx: (Math.random() * 0.4 - 0.2), // Slower movement
+      vy: (Math.random() * 0.4 - 0.2)  // Slower movement
     }));
 
     const draw = () => {
@@ -43,7 +47,7 @@ const SpiderWeb = () => {
             const dy = otherPoint.y - point.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 180) { // Increased connection distance
+            if (distance < 120) { // Reduced connection distance
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
@@ -53,36 +57,35 @@ const SpiderWeb = () => {
                 point.x, point.y,
                 otherPoint.x, otherPoint.y
               );
-              gradient.addColorStop(0, `rgba(255, 102, 0, ${1 - distance / 180})`); // Orange
-              gradient.addColorStop(1, `rgba(255, 140, 0, ${1 - distance / 180})`); // Darker orange
+              gradient.addColorStop(0, `rgba(255, 102, 0, ${1 - distance / 120})`); // Orange
+              gradient.addColorStop(1, `rgba(255, 140, 0, ${1 - distance / 120})`); // Darker orange
 
               ctx.strokeStyle = gradient;
-              ctx.lineWidth = 0.8; // Slightly thicker lines
+              ctx.lineWidth = 0.5; // Thinner lines for less visual noise
               ctx.stroke();
             }
           }
         });
 
-        // Draw points with glow effect
+        // Draw points with subtle glow effect
         ctx.beginPath();
-        ctx.arc(point.x, point.y, point.radius + 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 102, 0, 0.2)'; // Orange glow
+        ctx.arc(point.x, point.y, point.radius + 1, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 102, 0, 0.15)'; // Subtle orange glow
         ctx.fill();
 
         ctx.beginPath();
         ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 102, 0, 0.8)'; // Solid orange center
+        ctx.fillStyle = 'rgba(255, 102, 0, 0.6)'; // Solid orange center
+
         ctx.fill();
 
-        // Move points
-        point.x += Math.random() * 2 - 1;
-        point.y += Math.random() * 2 - 1;
+        // Move points with velocity
+        point.x += point.vx;
+        point.y += point.vy;
 
-        // Keep points in bounds
-        if (point.x < 0) point.x = canvas.width;
-        if (point.x > canvas.width) point.x = 0;
-        if (point.y < 0) point.y = canvas.height;
-        if (point.y > canvas.height) point.y = 0;
+        // Keep points in bounds with bounce effect
+        if (point.x < 0 || point.x > canvas.width) point.vx *= -1;
+        if (point.y < 0 || point.y > canvas.height) point.vy *= -1;
       });
     };
 
