@@ -89,7 +89,7 @@ const Navigation = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-center h-16"> {/* Changed justify-between to justify-center */}
+        <div className="flex items-center justify-between h-16">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -97,7 +97,7 @@ const Navigation = () => {
           >
             <LogoIcon />
           </motion.div>
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-8 ml-auto">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <a className={`text-white hover:text-orange-500 transition-colors ${
