@@ -12,7 +12,7 @@ const projects = [
     title: "Customer Churn Analysis",
     description: "Conducted customer churn analysis using PySpark on Azure Databricks. Identified key factors influencing churn and provided recommendations for customer retention strategies. Utilized advanced machine learning techniques to predict churn probability and segment customers based on behavior patterns.",
     technologies: ["PySpark", "Azure Databricks", "Machine Learning", "SQL", "Data Visualization"],
-    github: "https://github.com/yourusername/churn-analysis"
+    github: "https://github.com/Rda99/E-Commerce-Churn-Prediction"
   }
 ];
 
