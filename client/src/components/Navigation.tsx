@@ -12,6 +12,46 @@ const Navigation = () => {
     { href: "#contact", label: "Contact" },
   ];
 
+  const LogoIcon = () => (
+    <motion.svg
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      initial="hidden"
+      animate="visible"
+      className="text-orange-500"
+    >
+      <motion.circle
+        cx="20"
+        cy="20"
+        r="16"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 2, repeat: Infinity }}
+      />
+      <motion.path
+        d="M12 20 L28 20 M20 12 L20 28"
+        stroke="currentColor"
+        strokeWidth="2"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 2, delay: 0.5, repeat: Infinity }}
+      />
+      <motion.circle
+        cx="20"
+        cy="20"
+        r="4"
+        fill="currentColor"
+        initial={{ scale: 0 }}
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      />
+    </motion.svg>
+  );
+
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">
@@ -19,9 +59,10 @@ const Navigation = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-orange-500 font-bold text-xl"
+            className="flex items-center space-x-2"
           >
-            Rajdip Dutta
+            <LogoIcon />
+            <span className="text-orange-500 font-bold text-xl">Rajdip Dutta</span>
           </motion.div>
           <div className="hidden md:flex space-x-8">
             {navItems.map((item) => (
