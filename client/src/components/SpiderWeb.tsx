@@ -23,10 +23,10 @@ const SpiderWeb = () => {
       const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
 
       for (let i = 0; i < count; i++) {
-        const y = 1 - (i / (count - 1)) * 2; // y goes from 1 to -1
-        const radiusAtY = Math.sqrt(1 - y * y); // radius at y
+        const y = 1 - (i / (count - 1)) * 2;
+        const radiusAtY = Math.sqrt(1 - y * y);
 
-        const theta = phi * i; // Golden angle increment
+        const theta = phi * i;
 
         const x = Math.cos(theta) * radiusAtY;
         const z = Math.sin(theta) * radiusAtY;
@@ -45,11 +45,11 @@ const SpiderWeb = () => {
       return points;
     };
 
-    // Create multiple layers with different radii
+    // Create multiple layers with different radii and more points
     const points = [
-      ...createSpherePoints(50, 150, canvas.width / 2, canvas.height / 2),
-      ...createSpherePoints(75, 200, canvas.width / 2, canvas.height / 2),
-      ...createSpherePoints(100, 250, canvas.width / 2, canvas.height / 2),
+      ...createSpherePoints(80, 150, canvas.width / 2, canvas.height / 2),
+      ...createSpherePoints(100, 200, canvas.width / 2, canvas.height / 2),
+      ...createSpherePoints(120, 250, canvas.width / 2, canvas.height / 2),
     ];
 
     let rotationX = 0;
@@ -57,7 +57,6 @@ const SpiderWeb = () => {
     let time = 0;
 
     const project3DTo2D = (x: number, y: number, z: number) => {
-      // Simple perspective projection
       const focalLength = 400;
       const scale = focalLength / (focalLength + z);
       return {
@@ -68,13 +67,11 @@ const SpiderWeb = () => {
     };
 
     const rotatePoint = (x: number, y: number, z: number) => {
-      // Rotate around Y axis
       const cosY = Math.cos(rotationY);
       const sinY = Math.sin(rotationY);
       const tempX = x * cosY - z * sinY;
       const tempZ = z * cosY + x * sinY;
 
-      // Rotate around X axis
       const cosX = Math.cos(rotationX);
       const sinX = Math.sin(rotationX);
       const tempY = y * cosX - tempZ * sinX;
@@ -84,14 +81,13 @@ const SpiderWeb = () => {
     };
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // More trail for better visibility
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       time += 0.01;
-      rotationY += 0.002; // Constant rotation around Y axis
-      rotationX = Math.sin(time * 0.2) * 0.3; // Gentle wobble around X axis
+      rotationY += 0.001; // Slower rotation for better visibility
+      rotationX = Math.sin(time * 0.2) * 0.3;
 
-      // Update point positions with 3D rotation
       points.forEach(point => {
         const rotated = rotatePoint(point.x3d, point.y3d, point.z3d);
         const projected = project3DTo2D(rotated.x, rotated.y, rotated.z);
@@ -99,7 +95,7 @@ const SpiderWeb = () => {
         point.y = projected.y;
       });
 
-      // Draw connections
+      // Draw connections with enhanced visibility
       points.forEach((point, i) => {
         points.forEach((otherPoint, j) => {
           if (i < j) {
@@ -107,37 +103,45 @@ const SpiderWeb = () => {
             const dy = otherPoint.y - point.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 100) {
-              const opacity = (1 - distance / 100) * 0.5;
+            if (distance < 150) { // Increased connection distance
+              const opacity = (1 - distance / 150);
 
-              // Enhanced glow effect
+              // Outer glow
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(64, 196, 255, ${opacity * 0.5})`; // Bright blue color
-              ctx.lineWidth = 2;
+              ctx.strokeStyle = `rgba(0, 255, 255, ${opacity * 0.4})`; // Cyan color for better visibility
+              ctx.lineWidth = 3;
               ctx.stroke();
 
-              // Main line
+              // Inner line
               ctx.beginPath();
               ctx.moveTo(point.x, point.y);
               ctx.lineTo(otherPoint.x, otherPoint.y);
-              ctx.strokeStyle = `rgba(32, 156, 255, ${opacity})`; // Slightly darker blue
+              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.8})`; // White core for brightness
               ctx.lineWidth = 1;
               ctx.stroke();
             }
           }
         });
 
-        // Draw points with glow
+        // Enhanced point glow
+        // Outer glow
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(64, 196, 255, 0.8)';
+        ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.3)';
         ctx.fill();
 
+        // Middle glow
         ctx.beginPath();
         ctx.arc(point.x, point.y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(64, 196, 255, 0.3)';
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
+        ctx.fill();
+
+        // Core
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.fill();
       });
 
