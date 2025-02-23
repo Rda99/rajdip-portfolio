@@ -19,8 +19,10 @@ const Navigation = () => {
       viewBox="0 0 40 40"
       initial="hidden"
       animate="visible"
+      whileHover="hover"
       className="text-orange-500"
     >
+      {/* Circle representing 'O' */}
       <motion.circle
         cx="20"
         cy="20"
@@ -32,6 +34,8 @@ const Navigation = () => {
         animate={{ pathLength: 1 }}
         transition={{ duration: 2, repeat: Infinity }}
       />
+
+      {/* Data points representing 'D' */}
       <motion.path
         d="M12 20 L28 20 M20 12 L20 28"
         stroke="currentColor"
@@ -40,6 +44,8 @@ const Navigation = () => {
         animate={{ pathLength: 1 }}
         transition={{ duration: 2, delay: 0.5, repeat: Infinity }}
       />
+
+      {/* Pulsing center point */}
       <motion.circle
         cx="20"
         cy="20"
