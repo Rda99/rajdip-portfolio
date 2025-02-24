@@ -1,10 +1,17 @@
 import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { SiLinkedin, SiGithub } from "react-icons/si";
-import { FaFileAlt, FaCoffee, FaLaptopCode } from "react-icons/fa";
+import { FaFileAlt, FaCoffee, FaLaptopCode, FaMoon, FaSun } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 const Navigation = () => {
   const [location] = useLocation();
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    // Apply theme to body
+    document.body.className = isDark ? 'bg-black text-white' : 'bg-white text-black';
+  }, [isDark]);
 
   const navItems = [
     { href: "#home", label: "Home" },
@@ -21,7 +28,6 @@ const Navigation = () => {
     }
   };
 
-  // Updated to open resume in new tab
   const handleResumeClick = () => {
     window.open("https://drive.google.com/file/d/10u4_k9Y3nrZkSdudyZnVy-w6uvpxL7KA/view?usp=sharing", "_blank");
   };
@@ -102,7 +108,7 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm">
+      <nav className={`fixed top-0 left-0 w-full z-50 ${isDark ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-sm`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <motion.div
@@ -130,21 +136,33 @@ const Navigation = () => {
       </nav>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full bg-black/80 backdrop-blur-sm py-2">
+      <footer className={`fixed bottom-0 left-0 w-full ${isDark ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-sm py-2`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-white">
+            <div className="flex items-center space-x-2">
               <span>Made with</span>
               <FaLaptopCode className="text-orange-500" />
               <span>&</span>
               <FaCoffee className="text-orange-500" />
             </div>
+
+            {/* Theme Toggle Button */}
+            <motion.button
+              onClick={() => setIsDark(!isDark)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="flex items-center space-x-2 px-4 py-2 rounded-full bg-orange-500 text-black"
+            >
+              {isDark ? <FaSun size={16} /> : <FaMoon size={16} />}
+              <span className="text-sm font-medium">{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+            </motion.button>
+
             <div className="flex items-center space-x-4">
               <motion.a
                 href="https://www.linkedin.com/in/rajdip-dutta-data-analyst/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white hover:text-orange-500 transition-colors"
+                className="hover:text-orange-500 transition-colors"
                 whileHover={{ scale: 1.1 }}
                 aria-label="Visit LinkedIn Profile"
               >
@@ -154,7 +172,7 @@ const Navigation = () => {
                 href="https://github.com/Rda99"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white hover:text-orange-500 transition-colors"
+                className="hover:text-orange-500 transition-colors"
                 whileHover={{ scale: 1.1 }}
                 aria-label="Visit GitHub Profile"
               >
@@ -162,7 +180,7 @@ const Navigation = () => {
               </motion.a>
               <motion.button
                 onClick={handleResumeClick}
-                className="text-white hover:text-orange-500 transition-colors"
+                className="hover:text-orange-500 transition-colors"
                 whileHover={{ scale: 1.1 }}
                 aria-label="Download Resume"
               >

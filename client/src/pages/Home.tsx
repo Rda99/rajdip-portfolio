@@ -9,7 +9,7 @@ import Contact from "@/components/sections/Contact";
 
 const Home = () => {
   return (
-    <div className="relative min-h-screen bg-black text-white">
+    <div className="relative min-h-screen">
       {/* Background elements with explicit z-index */}
       <div className="fixed inset-0 overflow-hidden z-0">
         <SpiderWeb />
