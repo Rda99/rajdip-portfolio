@@ -86,13 +86,24 @@ const Contact = () => {
               rows={5}
             />
           </div>
-          <Button
-            type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-black"
-            disabled={mutation.isPending}
-          >
-            {mutation.isPending ? "Sending..." : "Send Message"}
-          </Button>
+          <div className="space-y-4">
+            <Button
+              type="submit"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-black"
+              disabled={mutation.isPending}
+            >
+              {mutation.isPending ? "Sending..." : "Send Message"}
+            </Button>
+            <p className="text-center text-gray-400">
+              or email me at{" "}
+              <a
+                href="mailto:dutta.rda99@gmail.com"
+                className="text-orange-500 hover:text-orange-400 transition-colors"
+              >
+                dutta.rda99@gmail.com
+              </a>
+            </p>
+          </div>
         </motion.form>
       </div>
     </section>
