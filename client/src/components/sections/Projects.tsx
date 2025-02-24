@@ -18,7 +18,15 @@ const projects = [
 ];
 
 const Projects = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const handleExpand = (index: number) => {
+    setExpandedIndex(index);
+  };
+
+  const handleCollapse = () => {
+    setExpandedIndex(null);
+  };
 
   return (
     <section id="projects" className="min-h-screen py-20 px-4">
@@ -39,8 +47,9 @@ const Projects = () => {
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="bg-black/50 p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all cursor-pointer"
-              onHoverStart={() => setHoveredIndex(index)}
-              onHoverEnd={() => setHoveredIndex(null)}
+              onClick={() => expandedIndex === index ? handleCollapse() : handleExpand(index)}
+              onMouseEnter={() => handleExpand(index)}
+              onMouseLeave={handleCollapse}
             >
               <div className="flex justify-between items-start">
                 <h3 className="text-xl font-bold text-orange-500">
@@ -59,7 +68,7 @@ const Projects = () => {
                   </motion.a>
                   <motion.div
                     animate={{
-                      rotate: hoveredIndex === index ? 180 : 0,
+                      rotate: expandedIndex === index ? 180 : 0,
                     }}
                     transition={{ duration: 0.3 }}
                   >
@@ -70,8 +79,8 @@ const Projects = () => {
 
               <motion.div
                 animate={{
-                  height: hoveredIndex === index ? "auto" : 0,
-                  opacity: hoveredIndex === index ? 1 : 0,
+                  height: expandedIndex === index ? "auto" : 0,
+                  opacity: expandedIndex === index ? 1 : 0,
                 }}
                 initial={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3 }}

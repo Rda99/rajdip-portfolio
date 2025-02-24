@@ -10,7 +10,7 @@ import { FiChevronDown } from "react-icons/fi";
 
 const Contact = () => {
   const { toast } = useToast();
-  const [isFormExpanded, setIsFormExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,7 +27,7 @@ const Contact = () => {
         description: "Thank you for reaching out. I'll get back to you soon.",
       });
       setFormData({ name: "", email: "", message: "" });
-      setIsFormExpanded(false);
+      setIsExpanded(false);
     },
     onError: () => {
       toast({
@@ -41,6 +41,14 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     mutation.mutate(formData);
+  };
+
+  const handleExpand = () => {
+    setIsExpanded(true);
+  };
+
+  const handleCollapse = () => {
+    setIsExpanded(false);
   };
 
   return (
@@ -61,12 +69,14 @@ const Contact = () => {
         >
           <div 
             className="flex justify-between items-center cursor-pointer mb-4"
-            onClick={() => setIsFormExpanded(!isFormExpanded)}
+            onClick={() => setIsExpanded(!isExpanded)}
+            onMouseEnter={handleExpand}
+            onMouseLeave={handleCollapse}
           >
             <h3 className="text-xl font-semibold text-white">Send me a message</h3>
             <motion.div
               animate={{
-                rotate: isFormExpanded ? 180 : 0,
+                rotate: isExpanded ? 180 : 0,
               }}
               transition={{ duration: 0.3 }}
             >
@@ -76,8 +86,8 @@ const Contact = () => {
 
           <motion.form
             animate={{
-              height: isFormExpanded ? "auto" : 0,
-              opacity: isFormExpanded ? 1 : 0,
+              height: isExpanded ? "auto" : 0,
+              opacity: isExpanded ? 1 : 0,
             }}
             initial={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
@@ -126,8 +136,8 @@ const Contact = () => {
 
           <motion.p 
             animate={{
-              opacity: isFormExpanded ? 0 : 1,
-              height: isFormExpanded ? 0 : "auto",
+              opacity: isExpanded ? 0 : 1,
+              height: isExpanded ? 0 : "auto",
             }}
             className="text-center text-gray-400 mt-4"
           >
