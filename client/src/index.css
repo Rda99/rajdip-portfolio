@@ -3,29 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 255 255 255;
-    --foreground: 0 0 0;
-  }
-
-  .dark {
-    --background: 0 0 0;
-    --foreground: 255 255 255;
-  }
-
   * {
     @apply border-border;
   }
 
   body {
-    @apply font-sans antialiased;
-    background-color: rgb(var(--background));
-    color: rgb(var(--foreground));
+    @apply font-sans antialiased bg-background text-foreground;
   }
-}
-
-/* Ensure spider web remains visible in both themes */
-#spiderWeb {
-  opacity: 0.1;
-  mix-blend-mode: difference;
 }
