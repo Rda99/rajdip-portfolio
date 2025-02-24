@@ -9,8 +9,14 @@ const Navigation = () => {
   const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    // Apply theme to body
-    document.body.className = isDark ? 'bg-black text-white' : 'bg-white text-black';
+    // Apply theme to body and update all background colors
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    }
   }, [isDark]);
 
   const navItems = [
@@ -42,7 +48,6 @@ const Navigation = () => {
       whileHover="hover"
       className="text-orange-500"
     >
-      {/* Outer hexagon shape */}
       <motion.path
         d="M20 4 L32 10 L32 30 L20 36 L8 30 L8 10 Z"
         fill="none"
@@ -53,13 +58,11 @@ const Navigation = () => {
         transition={{ duration: 2, repeat: Infinity }}
       />
 
-      {/* Inner data points and connections */}
       <motion.g
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        {/* Data points */}
         <motion.circle cx="20" cy="12" r="2" fill="currentColor" />
         <motion.circle cx="28" cy="16" r="2" fill="currentColor" />
         <motion.circle cx="28" cy="24" r="2" fill="currentColor" />
@@ -67,7 +70,6 @@ const Navigation = () => {
         <motion.circle cx="12" cy="24" r="2" fill="currentColor" />
         <motion.circle cx="12" cy="16" r="2" fill="currentColor" />
 
-        {/* Central node with pulse animation */}
         <motion.circle
           cx="20"
           cy="20"
@@ -80,7 +82,6 @@ const Navigation = () => {
           transition={{ duration: 2, repeat: Infinity }}
         />
 
-        {/* Connecting lines with animation */}
         <motion.path
           d="M20 12 L28 16 L28 24 L20 28 L12 24 L12 16 Z"
           stroke="currentColor"
@@ -91,7 +92,6 @@ const Navigation = () => {
           transition={{ duration: 1.5, delay: 1, repeat: Infinity }}
         />
 
-        {/* Radiating lines */}
         <motion.g
           animate={{ 
             rotate: 360,
@@ -123,7 +123,7 @@ const Navigation = () => {
                 <button
                   key={item.href}
                   onClick={() => handleNavClick(item.href)}
-                  className={`text-white hover:text-orange-500 transition-colors ${
+                  className={`hover:text-orange-500 transition-colors ${
                     location === item.href ? "text-orange-500" : ""
                   }`}
                 >
@@ -135,7 +135,6 @@ const Navigation = () => {
         </div>
       </nav>
 
-      {/* Footer */}
       <footer className={`fixed bottom-0 left-0 w-full ${isDark ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-sm py-2`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
@@ -146,15 +145,14 @@ const Navigation = () => {
               <FaCoffee className="text-orange-500" />
             </div>
 
-            {/* Theme Toggle Button */}
             <motion.button
               onClick={() => setIsDark(!isDark)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="flex items-center space-x-2 px-4 py-2 rounded-full bg-orange-500 text-black"
+              className="p-2 rounded-full bg-orange-500 text-black"
+              aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              {isDark ? <FaSun size={16} /> : <FaMoon size={16} />}
-              <span className="text-sm font-medium">{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+              {isDark ? <FaSun size={20} /> : <FaMoon size={20} />}
             </motion.button>
 
             <div className="flex items-center space-x-4">
