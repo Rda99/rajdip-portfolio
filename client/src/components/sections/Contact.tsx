@@ -47,10 +47,6 @@ const Contact = () => {
     setIsExpanded(true);
   };
 
-  const handleCollapse = () => {
-    setIsExpanded(false);
-  };
-
   return (
     <section id="contact" className="min-h-screen py-20 px-4">
       <div className="container mx-auto max-w-2xl">
@@ -71,7 +67,6 @@ const Contact = () => {
             className="flex justify-between items-center cursor-pointer mb-4"
             onClick={() => setIsExpanded(!isExpanded)}
             onMouseEnter={handleExpand}
-            onMouseLeave={handleCollapse}
           >
             <h3 className="text-xl font-semibold text-white">Send me a message</h3>
             <motion.div

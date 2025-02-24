@@ -51,10 +51,6 @@ const Experience = () => {
     setExpandedIndex(index);
   };
 
-  const handleCollapse = () => {
-    setExpandedIndex(null);
-  };
-
   return (
     <section id="experience" className="min-h-screen py-20 px-4">
       <div className="container mx-auto max-w-4xl">
@@ -78,9 +74,8 @@ const Experience = () => {
               <div className="absolute -left-2 top-0 w-4 h-4 bg-orange-500 rounded-full" />
               <motion.div 
                 className="bg-black/50 p-6 rounded-lg border border-orange-500/20 cursor-pointer"
-                onClick={() => expandedIndex === index ? handleCollapse() : handleExpand(index)}
+                onClick={() => setExpandedIndex(index === expandedIndex ? null : index)}
                 onMouseEnter={() => handleExpand(index)}
-                onMouseLeave={handleCollapse}
               >
                 <div className="flex justify-between items-start">
                   <div>

@@ -24,10 +24,6 @@ const Projects = () => {
     setExpandedIndex(index);
   };
 
-  const handleCollapse = () => {
-    setExpandedIndex(null);
-  };
-
   return (
     <section id="projects" className="min-h-screen py-20 px-4">
       <div className="container mx-auto max-w-4xl">
@@ -47,9 +43,8 @@ const Projects = () => {
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="bg-black/50 p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all cursor-pointer"
-              onClick={() => expandedIndex === index ? handleCollapse() : handleExpand(index)}
+              onClick={() => setExpandedIndex(index === expandedIndex ? null : index)}
               onMouseEnter={() => handleExpand(index)}
-              onMouseLeave={handleCollapse}
             >
               <div className="flex justify-between items-start">
                 <h3 className="text-xl font-bold text-orange-500">
