@@ -2,7 +2,7 @@
 
 A modern, interactive portfolio website built with React, TypeScript, and Framer Motion to showcase professional experience, technical skills, and projects in data analysis and engineering.
 
-![Portfolio Preview](preview.png)
+![Portfolio Preview](https://rajdip-dutta-portfolio.onrender.com/#)
 
 ## 🚀 Features
 
