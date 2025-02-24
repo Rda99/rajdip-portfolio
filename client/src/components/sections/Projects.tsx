@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { FiGithub } from "react-icons/fi";
+import { FiGithub, FiChevronDown } from "react-icons/fi";
+import { useState } from "react";
 
 const projects = [
   {
@@ -17,6 +18,8 @@ const projects = [
 ];
 
 const Projects = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <section id="projects" className="min-h-screen py-20 px-4">
       <div className="container mx-auto max-w-4xl">
@@ -35,34 +38,57 @@ const Projects = () => {
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-black/50 p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-colors"
+              className="bg-black/50 p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all cursor-pointer"
+              onHoverStart={() => setHoveredIndex(index)}
+              onHoverEnd={() => setHoveredIndex(null)}
             >
-              <div className="flex justify-between items-start mb-3">
+              <div className="flex justify-between items-start">
                 <h3 className="text-xl font-bold text-orange-500">
                   {project.title}
                 </h3>
-                <motion.a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-orange-500 hover:text-orange-400 transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <FiGithub size={24} />
-                </motion.a>
-              </div>
-              <p className="text-gray-300 mb-4">{project.description}</p>
-              <div className="flex flex-wrap gap-2">
-                {project.technologies.map((tech, i) => (
-                  <span
-                    key={i}
-                    className="bg-orange-500/10 text-orange-500 px-3 py-1 rounded-full text-sm"
+                <div className="flex gap-2 items-center">
+                  <motion.a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-orange-500 hover:text-orange-400 transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
-                    {tech}
-                  </span>
-                ))}
+                    <FiGithub size={24} />
+                  </motion.a>
+                  <motion.div
+                    animate={{
+                      rotate: hoveredIndex === index ? 180 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <FiChevronDown className="text-orange-500" size={20} />
+                  </motion.div>
+                </div>
               </div>
+
+              <motion.div
+                animate={{
+                  height: hoveredIndex === index ? "auto" : 0,
+                  opacity: hoveredIndex === index ? 1 : 0,
+                }}
+                initial={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <p className="text-gray-300 my-4">{project.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies.map((tech, i) => (
+                    <span
+                      key={i}
+                      className="bg-orange-500/10 text-orange-500 px-3 py-1 rounded-full text-sm"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>
