@@ -7,7 +7,7 @@ const projects = [
     title: "Fraud Detection Model",
     description: "Developed a machine learning model using Python, scikit-learn and A/B Testing to detect fraudulent transactions. The model achieved an accuracy of 92% and demonstrated potential savings through early fraud detection and prevention of fraudulent transactions.",
     technologies: ["Python", "scikit-learn", "A/B Testing", "Pandas", "NumPy"],
-    github: "https://github.com/yourusername/fraud-detection"
+    github: "https://github.com/Rda99/Fraud-Detection"
   },
   {
     title: "Customer Churn Analysis",
