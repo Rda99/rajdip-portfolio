@@ -38,17 +38,17 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="min-h-screen py-20 px-4">
+    <section id="projects" className="min-h-screen py-12 sm:py-16 lg:py-20 px-4">
       <div className="container mx-auto max-w-4xl">
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="text-3xl md:text-4xl font-bold text-orange-500 mb-12 text-center"
+          className="text-3xl md:text-4xl font-bold text-orange-500 mb-8 sm:mb-10 lg:mb-12 text-center"
         >
           Featured Projects
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={index}

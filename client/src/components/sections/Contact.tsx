@@ -48,12 +48,12 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="min-h-screen py-20 px-4">
+    <section id="contact" className="min-h-screen py-12 sm:py-16 lg:py-20 px-4">
       <div className="container mx-auto max-w-2xl">
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="text-3xl md:text-4xl font-bold text-orange-500 mb-12 text-center"
+          className="text-3xl md:text-4xl font-bold text-orange-500 mb-8 sm:mb-10 lg:mb-12 text-center"
         >
           Get in Touch
         </motion.h2>
