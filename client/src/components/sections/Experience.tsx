@@ -51,6 +51,13 @@ const Experience = () => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
 
+  const handleHover = (index: number) => {
+    // Only expand on hover if no experience is currently expanded
+    if (expandedIndex === null) {
+      setExpandedIndex(index);
+    }
+  };
+
   return (
     <section id="experience" className="min-h-screen py-20 px-4">
       <div className="container mx-auto max-w-4xl">
@@ -75,6 +82,7 @@ const Experience = () => {
               <motion.div 
                 className="bg-black/50 p-4 sm:p-6 rounded-lg border border-orange-500/20 cursor-pointer"
                 onClick={() => toggleExpand(index)}
+                onMouseEnter={() => handleHover(index)}
               >
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
                   <div className="flex-1">

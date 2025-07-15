@@ -24,6 +24,13 @@ const Projects = () => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
 
+  const handleHover = (index: number) => {
+    // Only expand on hover if no project is currently expanded
+    if (expandedIndex === null) {
+      setExpandedIndex(index);
+    }
+  };
+
   return (
     <section id="projects" className="min-h-screen py-20 px-4">
       <div className="container mx-auto max-w-4xl">
@@ -44,6 +51,7 @@ const Projects = () => {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="bg-black/50 p-4 sm:p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all cursor-pointer"
               onClick={() => toggleExpand(index)}
+              onMouseEnter={() => handleHover(index)}
             >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
                 <h3 className="text-lg sm:text-xl font-bold text-orange-500 break-words flex-1">
