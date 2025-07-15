@@ -46,16 +46,22 @@ const experiences = [
 
 const Experience = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
 
-  const handleHover = (index: number) => {
-    // Only expand on hover if no experience is currently expanded
-    if (expandedIndex === null) {
-      setExpandedIndex(index);
-    }
+  const handleMouseEnter = (index: number) => {
+    setHoveredIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+  };
+
+  const isExpanded = (index: number) => {
+    return expandedIndex === index || (expandedIndex === null && hoveredIndex === index);
   };
 
   return (
@@ -82,7 +88,8 @@ const Experience = () => {
               <motion.div 
                 className="bg-black/50 p-4 sm:p-6 rounded-lg border border-orange-500/20 cursor-pointer"
                 onClick={() => toggleExpand(index)}
-                onMouseEnter={() => handleHover(index)}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
               >
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
                   <div className="flex-1">
@@ -91,7 +98,7 @@ const Experience = () => {
                   </div>
                   <motion.div
                     animate={{
-                      rotate: expandedIndex === index ? 180 : 0,
+                      rotate: isExpanded(index) ? 180 : 0,
                     }}
                     transition={{ duration: 0.3 }}
                   >
@@ -101,8 +108,8 @@ const Experience = () => {
 
                 <motion.div
                   animate={{
-                    height: expandedIndex === index ? "auto" : 0,
-                    opacity: expandedIndex === index ? 1 : 0,
+                    height: isExpanded(index) ? "auto" : 0,
+                    opacity: isExpanded(index) ? 1 : 0,
                   }}
                   initial={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}

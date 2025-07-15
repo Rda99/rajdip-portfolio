@@ -19,16 +19,22 @@ const projects = [
 
 const Projects = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(index === expandedIndex ? null : index);
   };
 
-  const handleHover = (index: number) => {
-    // Only expand on hover if no project is currently expanded
-    if (expandedIndex === null) {
-      setExpandedIndex(index);
-    }
+  const handleMouseEnter = (index: number) => {
+    setHoveredIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+  };
+
+  const isExpanded = (index: number) => {
+    return expandedIndex === index || (expandedIndex === null && hoveredIndex === index);
   };
 
   return (
@@ -51,7 +57,8 @@ const Projects = () => {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="bg-black/50 p-4 sm:p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all cursor-pointer"
               onClick={() => toggleExpand(index)}
-              onMouseEnter={() => handleHover(index)}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
             >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
                 <h3 className="text-lg sm:text-xl font-bold text-orange-500 break-words flex-1">
@@ -70,7 +77,7 @@ const Projects = () => {
                   </motion.a>
                   <motion.div
                     animate={{
-                      rotate: expandedIndex === index ? 180 : 0,
+                      rotate: isExpanded(index) ? 180 : 0,
                     }}
                     transition={{ duration: 0.3 }}
                   >
@@ -81,8 +88,8 @@ const Projects = () => {
 
               <motion.div
                 animate={{
-                  height: expandedIndex === index ? "auto" : 0,
-                  opacity: expandedIndex === index ? 1 : 0,
+                  height: isExpanded(index) ? "auto" : 0,
+                  opacity: isExpanded(index) ? 1 : 0,
                 }}
                 initial={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3 }}
