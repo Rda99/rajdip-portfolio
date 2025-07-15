@@ -47,8 +47,8 @@ const experiences = [
 const Experience = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  const handleExpand = (index: number) => {
-    setExpandedIndex(index);
+  const toggleExpand = (index: number) => {
+    setExpandedIndex(index === expandedIndex ? null : index);
   };
 
   return (
@@ -74,8 +74,7 @@ const Experience = () => {
               <div className="absolute -left-2 top-0 w-4 h-4 bg-orange-500 rounded-full" />
               <motion.div 
                 className="bg-black/50 p-4 sm:p-6 rounded-lg border border-orange-500/20 cursor-pointer"
-                onClick={() => setExpandedIndex(index === expandedIndex ? null : index)}
-                onMouseEnter={() => handleExpand(index)}
+                onClick={() => toggleExpand(index)}
               >
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
                   <div className="flex-1">

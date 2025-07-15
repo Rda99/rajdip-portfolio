@@ -20,8 +20,8 @@ const projects = [
 const Projects = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  const handleExpand = (index: number) => {
-    setExpandedIndex(index);
+  const toggleExpand = (index: number) => {
+    setExpandedIndex(index === expandedIndex ? null : index);
   };
 
   return (
@@ -43,8 +43,7 @@ const Projects = () => {
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="bg-black/50 p-4 sm:p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all cursor-pointer"
-              onClick={() => setExpandedIndex(index === expandedIndex ? null : index)}
-              onMouseEnter={() => handleExpand(index)}
+              onClick={() => toggleExpand(index)}
             >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
                 <h3 className="text-lg sm:text-xl font-bold text-orange-500 break-words flex-1">
