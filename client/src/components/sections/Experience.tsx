@@ -4,10 +4,23 @@ import { FiChevronDown } from "react-icons/fi";
 
 const experiences = [
   {
+    company: "Government of Meghalaya",
+    location: "Shillong, Meghalaya",
+    position: "Public Sector Consultant – Data Scientist",
+    period: "Jun 2025 - Present",
+    achievements: [
+      "Partnered with the Government of Meghalaya as a Knowledge Partner, delivering data-driven insights to support high-level policy decisions across departments",
+      "Led the identification of unique household members to facilitate the equitable distribution of ₹28 crores in welfare schemes, enhancing targeting and reducing duplication",
+      "Contributed to the development of the State Youth Portal, integrating AI-powered functionalities to automate services and improve user experience",
+      "Analyzed large-scale government datasets to derive key indicators and trends, informing the implementation of evidence-based policies in youth development, education, and social welfare",
+      "Designed and executed multiple citizen-centric initiatives, coupled with capacity building programs to improve adoption and digital readiness within government bodies"
+    ]
+  },
+  {
     company: "Innovaccer Analytics Pvt Ltd.",
     location: "Noida, India",
     position: "Data Analyst/Engineer",
-    period: "Nov 2024 - Present",
+    period: "Nov 2024 - May 2025",
     achievements: [
       "Led data analytics and engineering projects in the US healthcare industry, utilizing SQL and Alteryx to improve data processing efficiency and support decision-making",
       "Built end-to-end data engineering pipelines using in-house schemas and the Dap tool, enhancing data integration for various healthcare clients",
