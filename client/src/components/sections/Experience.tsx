@@ -4,7 +4,7 @@ import { FiChevronDown } from "react-icons/fi";
 
 const experiences = [
   {
-    company: "Government of Meghalaya",
+    company: "Grant Thornton Bharat LLP",
     location: "Shillong, Meghalaya",
     position: "Public Sector Consultant – Data Scientist",
     period: "Jun 2025 - Present",
