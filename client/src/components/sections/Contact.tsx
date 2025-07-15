@@ -61,14 +61,14 @@ const Contact = () => {
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          className="bg-black/50 p-8 rounded-lg border border-orange-500/20"
+          className="bg-black/50 p-4 sm:p-6 lg:p-8 rounded-lg border border-orange-500/20"
         >
           <div 
             className="flex justify-between items-center cursor-pointer mb-4"
             onClick={() => setIsExpanded(!isExpanded)}
             onMouseEnter={handleExpand}
           >
-            <h3 className="text-xl font-semibold text-white">Send me a message</h3>
+            <h3 className="text-lg sm:text-xl font-semibold text-white">Send me a message</h3>
             <motion.div
               animate={{
                 rotate: isExpanded ? 180 : 0,

@@ -69,18 +69,18 @@ const Experience = () => {
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="relative border-l-2 border-orange-500 pl-8"
+              className="relative border-l-2 border-orange-500 pl-6 sm:pl-8"
             >
               <div className="absolute -left-2 top-0 w-4 h-4 bg-orange-500 rounded-full" />
               <motion.div 
-                className="bg-black/50 p-6 rounded-lg border border-orange-500/20 cursor-pointer"
+                className="bg-black/50 p-4 sm:p-6 rounded-lg border border-orange-500/20 cursor-pointer"
                 onClick={() => setExpandedIndex(index === expandedIndex ? null : index)}
                 onMouseEnter={() => handleExpand(index)}
               >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-xl font-bold text-orange-500">{exp.company}</h3>
-                    <p className="text-gray-400">{exp.location}</p>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
+                  <div className="flex-1">
+                    <h3 className="text-lg sm:text-xl font-bold text-orange-500 break-words">{exp.company}</h3>
+                    <p className="text-sm sm:text-base text-gray-400">{exp.location}</p>
                   </div>
                   <motion.div
                     animate={{
@@ -102,13 +102,13 @@ const Experience = () => {
                   className="overflow-hidden"
                 >
                   <div className="mt-4">
-                    <p className="text-lg font-semibold mb-2">{exp.position}</p>
-                    <p className="text-gray-400 mb-4">{exp.period}</p>
+                    <p className="text-base sm:text-lg font-semibold mb-2">{exp.position}</p>
+                    <p className="text-sm sm:text-base text-gray-400 mb-4">{exp.period}</p>
                     <ul className="space-y-2">
                       {exp.achievements.map((achievement, i) => (
                         <li key={i} className="flex items-start">
-                          <span className="text-orange-500 mr-2">•</span>
-                          <span className="text-gray-300">{achievement}</span>
+                          <span className="text-orange-500 mr-2 text-sm sm:text-base">•</span>
+                          <span className="text-gray-300 text-sm sm:text-base leading-relaxed">{achievement}</span>
                         </li>
                       ))}
                     </ul>

@@ -35,22 +35,22 @@ const Projects = () => {
           Featured Projects
         </motion.h2>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={index}
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-black/50 p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all cursor-pointer"
+              className="bg-black/50 p-4 sm:p-6 rounded-lg border border-orange-500/20 hover:border-orange-500/40 transition-all cursor-pointer"
               onClick={() => setExpandedIndex(index === expandedIndex ? null : index)}
               onMouseEnter={() => handleExpand(index)}
             >
-              <div className="flex justify-between items-start">
-                <h3 className="text-xl font-bold text-orange-500">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
+                <h3 className="text-lg sm:text-xl font-bold text-orange-500 break-words flex-1">
                   {project.title}
                 </h3>
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center self-start sm:self-center">
                   <motion.a
                     href={project.github}
                     target="_blank"
@@ -81,12 +81,12 @@ const Projects = () => {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <p className="text-gray-300 my-4">{project.description}</p>
+                <p className="text-gray-300 my-4 text-sm sm:text-base leading-relaxed">{project.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech, i) => (
                     <span
                       key={i}
-                      className="bg-orange-500/10 text-orange-500 px-3 py-1 rounded-full text-sm"
+                      className="bg-orange-500/10 text-orange-500 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm"
                     >
                       {tech}
                     </span>
