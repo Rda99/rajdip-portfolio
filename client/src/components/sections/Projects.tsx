@@ -38,7 +38,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="min-h-screen py-12 sm:py-16 lg:py-20 px-4">
+    <section id="projects" className="py-8 sm:py-12 md:py-16 lg:py-20 px-4">
       <div className="container mx-auto max-w-4xl">
         <motion.h2
           initial={{ opacity: 0 }}

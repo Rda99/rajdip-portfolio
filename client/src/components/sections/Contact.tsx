@@ -48,7 +48,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="min-h-screen py-12 sm:py-16 lg:py-20 px-4">
+    <section id="contact" className="py-8 sm:py-12 md:py-16 lg:py-20 px-4">
       <div className="container mx-auto max-w-2xl">
         <motion.h2
           initial={{ opacity: 0 }}
