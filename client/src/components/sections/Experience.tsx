@@ -3,11 +3,25 @@ import { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 
 const experiences = [
+    {
+    company: "HSBC",
+    location: "Kolkata, India",
+    position: "Senior Data Analyst",
+    period: "Aug 2025 - Present",
+    achievements: [
+      "Architected and delivered an enterprise-scale AI-powered Address Standardization Platform, combining Machine Learning, rule-based intelligence, and a proprietary knowledge base to automate global address validation and standardization",
+      "Designed an end-to-end production pipeline that standardized 5M+ records across 55 countries with 95-98% accuracy, supporting HSBC's global data transformation programme",
+      "Increased processing throughput from approximately 3,000 manually standardized records/day to millions of records/day, reducing manual effort equivalent to 4-5 FTEs through intelligent automation",
+      "Developed a reusable metadata-driven framework enabling rapid onboarding of new countries and business rules while reducing dependence on commercial address standardization solutions",
+      "Adopted by multiple global teams and 10-15 analysts, establishing the platform as the preferred enterprise solution for address standardization within the global transformation programme",
+      "Recognized by HSBC Global Leadership for delivering a strategic enterprise AI solution that accelerated a critical global transformation initiative"
+    ]
+  },
   {
     company: "Grant Thornton Bharat LLP",
     location: "Shillong, Meghalaya",
     position: "Public Sector Consultant – Data Scientist",
-    period: "Jun 2025 - Present",
+    period: "Jun 2025 - Aug 2025",
     achievements: [
       "Partnered with the Government of Meghalaya as a Knowledge Partner, delivering data-driven insights to support high-level policy decisions across departments",
       "Led the identification of unique household members to facilitate the equitable distribution of ₹28 crores in welfare schemes, enhancing targeting and reducing duplication",
