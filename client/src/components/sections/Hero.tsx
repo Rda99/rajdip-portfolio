@@ -26,7 +26,7 @@ const Hero = () => {
           <span className="text-orange-500">Data Analyst</span> & Engineer
         </motion.h2>
         <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed px-4 sm:px-0">
-          Highly skilled Data Analyst & Engineer with 4+ years of experience delivering advanced analytics & engineering
+          Highly skilled Data Analyst & Engineer with 5+ years of experience delivering advanced Enterprise level AI analytics & engineering
           solutions across Finance, Insurance, E-commerce, Media Entertainment, and Construction sectors.
         </p>
         <motion.div
